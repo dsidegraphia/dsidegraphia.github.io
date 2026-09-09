@@ -40,8 +40,31 @@ Mewujudkan ide menjadi hasil cetak berkualitas untuk kebutuhan personal, bisnis,
 
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
+    
+    <!-- WAJIB: Konfigurasi Tailwind HARUS ditaruh SEBELUM script tailwindcss.com dipanggil -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Poppins', 'sans-serif'], },
+                    colors: {
+                        brand: {
+                            400: 'var(--c-brand-400)',
+                            500: 'var(--c-brand-500)',
+                            600: 'var(--c-brand-600)',
+                            700: 'var(--c-brand-700)',
+                        },
+                        indigo: {
+                            400: 'var(--c-accent-400)',
+                            500: 'var(--c-accent-500)',
+                            600: 'var(--c-accent-600)',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
@@ -49,26 +72,18 @@ Mewujudkan ide menjadi hasil cetak berkualitas untuk kebutuhan personal, bisnis,
     <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.min.js"></script>
 
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['Poppins', 'sans-serif'],
-                    },
-                    colors: {
-                        brand: {
-                            50: '#f5f3ff',
-                            500: '#8b5cf6',
-                            600: '#7c3aed',
-                            700: '#6d28d9',
-                        }
-                    }
-                }
-            }
-        }
-    </script>
     <style>
+        /* FALLBACK / DEFAULT WARNA GRADASI */
+        :root {
+            --c-brand-400: #a78bfa; --c-brand-500: #8b5cf6; --c-brand-600: #7c3aed; --c-brand-700: #6d28d9;
+            --c-accent-400: #818cf8; --c-accent-500: #6366f1; --c-accent-600: #4f46e5;
+        }
+
+        /* PAKSA SEMUA TOMBOL WARNA SOLID MENJADI GRADASI */
+        .bg-brand-600 { background-image: linear-gradient(135deg, var(--c-brand-600), var(--c-accent-600)) !important; }
+        .bg-brand-500 { background-image: linear-gradient(135deg, var(--c-brand-500), var(--c-accent-500)) !important; }
+        .hover\:bg-brand-500:hover { background-image: linear-gradient(135deg, var(--c-brand-500), var(--c-accent-500)) !important; }
+
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
 
@@ -81,176 +96,150 @@ Mewujudkan ide menjadi hasil cetak berkualitas untuk kebutuhan personal, bisnis,
             -moz-appearance: textfield;
         }
 
-        @keyframes navActiveIcon {
-            0% { transform: translateY(0) scale(1); }
-            50% { transform: translateY(-6px) scale(1.25); }
-            100% { transform: translateY(-4px) scale(1.15); }
-        }
+        @keyframes navActiveIcon { 0% { transform: translateY(0) scale(1); } 50% { transform: translateY(-6px) scale(1.25); } 100% { transform: translateY(-4px) scale(1.15); } }
+        @keyframes navActivePill { 0% { transform: scale(0.6); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+        @keyframes navActiveLine { 0% { transform: translate(-50%, -100%); opacity: 0; } 100% { transform: translate(-50%, 0); opacity: 1; } }
 
-        @keyframes navActivePill {
-            0% { transform: scale(0.6); opacity: 0; }
-            100% { transform: scale(1); opacity: 1; }
-        }
+        .nav-icon-active { animation: navActiveIcon 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }
+        .nav-pill-active { animation: navActivePill 0.3s ease-out forwards; }
+        .nav-line-active { animation: navActiveLine 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }
 
-        @keyframes navActiveLine {
-            0% { transform: translate(-50%, -100%); opacity: 0; }
-            100% { transform: translate(-50%, 0); opacity: 1; }
-        }
+        @keyframes orbPopOut { 0% { transform: translateY(15px) scale(0.3); opacity: 0; } 50% { transform: translateY(-30px) scale(1.1); opacity: 1; } 100% { transform: translateY(-26px) scale(1); opacity: 1; } }
+        @keyframes textSlideUp { 0% { transform: translateY(10px); opacity: 0; } 100% { transform: translateY(0); opacity: 1; } }
 
-        .nav-icon-active {
-            animation: navActiveIcon 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-        }
-        .nav-pill-active {
-            animation: navActivePill 0.3s ease-out forwards;
-        }
-        .nav-line-active {
-            animation: navActiveLine 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-        }
+        .nav-orb-active { animation: orbPopOut 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards; }
+        .nav-text-active { animation: textSlideUp 0.4s ease-out forwards; animation-delay: 0.1s; }
 
-        @keyframes orbPopOut {
-            0% { transform: translateY(15px) scale(0.3); opacity: 0; }
-            50% { transform: translateY(-30px) scale(1.1); opacity: 1; }
-            100% { transform: translateY(-26px) scale(1); opacity: 1; } /* Dinaikkan agar tidak menabrak teks */
-        }
-
-        @keyframes textSlideUp {
-            0% { transform: translateY(10px); opacity: 0; }
-            100% { transform: translateY(0); opacity: 1; }
-        }
-
-        .nav-orb-active {
-            animation: orbPopOut 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-        }
-
-        .nav-text-active {
-            animation: textSlideUp 0.4s ease-out forwards;
-            animation-delay: 0.1s; /* Memberi jeda sedikit agar bola naik duluan */
-        }
-
-        body.theme-light { background-color: #f8fafc !important; color: #0f172a !important; }
-
-        body.theme-light .bg-slate-950 { background-color: #e2e8f0 !important; }
-        body.theme-light .bg-slate-900 { background-color: #f8fafc !important; }
-        body.theme-light .bg-slate-800 { background-color: #ffffff !important; }
-        body.theme-light .bg-slate-700 { background-color: #f1f5f9 !important; }
-        body.theme-light .bg-slate-600 { background-color: #e2e8f0 !important; }
-        body.theme-light .from-slate-800 { background: #ffffff !important; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05) !important; }
-        body.theme-light .from-white.bg-clip-text { --tw-gradient-from: #0f172a !important; --tw-gradient-to: #64748b !important; --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to) !important; }
-        body.theme-light .border-slate-700,
-        body.theme-light .border-slate-700\/50,
-        body.theme-light .border-slate-700\/60,
-        body.theme-light .border-slate-700\/80,
-        body.theme-light .border-slate-600,
-        body.theme-light .border-slate-600\/50 { border-color: #e2e8f0 !important; }
-        body.theme-light .border-slate-900 { border-color: #ffffff !important; } 
-        body.theme-light header { background-color: rgba(255, 255, 255, 0.9) !important; border-bottom-color: #e2e8f0 !important; }
-        body.theme-light nav#bottomNav { background-color: rgba(255, 255, 255, 0.95) !important; border-top-color: #e2e8f0 !important; }
-        body.theme-light .bg-slate-800\/30,
-        body.theme-light .bg-slate-800\/50,
-        body.theme-light .bg-slate-800\/60,
-        body.theme-light .bg-slate-800\/80, 
-        body.theme-light .bg-slate-800\/95 { 
-            background-color: #ffffff !important; 
-            border-color: #e2e8f0 !important;
-            box-shadow: 0 4px 15px -3px rgba(0, 0, 0, 0.05) !important;
-        }
-
-        body.theme-light .bg-slate-700\/50, /* Warna background tombol search */
-        body.theme-light .bg-slate-900\/20,
-        body.theme-light .bg-slate-900\/30, 
-        body.theme-light .bg-slate-900\/50, 
-        body.theme-light .bg-slate-900\/60 { background-color: #f1f5f9 !important; border-color: #e2e8f0 !important; }
-        body.theme-light .bg-slate-900\/80 { background-color: rgba(255, 255, 255, 0.85) !important; }
-        body.theme-light .bg-slate-950\/80, body.theme-light .bg-slate-950\/90 { background-color: rgba(15, 23, 42, 0.5) !important; }
-        body.theme-light .text-white, 
-        body.theme-light .text-slate-100, 
-        body.theme-light .text-slate-200 { color: #0f172a !important; }
-        body.theme-light .text-slate-300, 
-        body.theme-light .text-slate-400 { color: #475569 !important; }
-        body.theme-light .text-slate-500 { color: #64748b !important; }
-        body.theme-light .text-brand-400 { color: #6d28d9 !important; } 
-        body.theme-light .text-emerald-400 { color: #059669 !important; }
-        body.theme-light .text-indigo-400 { color: #4f46e5 !important; }
-        body.theme-light .text-blue-400 { color: #2563eb !important; }
-        body.theme-light .text-rose-400 { color: #e11d48 !important; }
-        body.theme-light .text-amber-400 { color: #d97706 !important; }
-        body.theme-light .from-brand-500, body.theme-light .from-brand-500 i, body.theme-light .from-brand-500 h1,
-        body.theme-light .from-brand-500 h2, body.theme-light .from-brand-500 h3, body.theme-light .from-brand-500 p, body.theme-light .from-brand-500 span,
-        body.theme-light .from-brand-600, body.theme-light .from-brand-600 i, body.theme-light .from-brand-600 h1,
-        body.theme-light .from-brand-600 h2, body.theme-light .from-brand-600 h3, body.theme-light .from-brand-600 p, body.theme-light .from-brand-600 span,
-        body.theme-light .bg-rose-500, body.theme-light .bg-rose-500 i, body.theme-light .bg-rose-500 span,
-        body.theme-light .bg-rose-600, body.theme-light .bg-rose-600 i, body.theme-light .bg-rose-600 span,
-        body.theme-light .bg-emerald-500, body.theme-light .bg-emerald-500 i, body.theme-light .bg-emerald-500 span,
-        body.theme-light .bg-emerald-600, body.theme-light .bg-emerald-600 i, body.theme-light .bg-emerald-600 span,
-        body.theme-light .bg-indigo-500, body.theme-light .bg-indigo-500 i, body.theme-light .bg-indigo-500 span,
-        body.theme-light .bg-indigo-600, body.theme-light .bg-indigo-600 i, body.theme-light .bg-indigo-600 span,
-        body.theme-light .bg-blue-500, body.theme-light .bg-blue-500 i, body.theme-light .bg-blue-500 span,
-        body.theme-light .bg-blue-600, body.theme-light .bg-blue-600 i, body.theme-light .bg-blue-600 span,
-        body.theme-light .bg-brand-500, body.theme-light .bg-brand-500 i, body.theme-light .bg-brand-500 span,
-        body.theme-light .bg-brand-600, body.theme-light .bg-brand-600 i, body.theme-light .bg-brand-600 span,
-        body.theme-light .nav-orb-active i {
-            color: #ffffff !important; 
-        }
-        body.theme-light .banner-dot.bg-white,
-        body.theme-light .product-dot-ind.bg-white { background-color: #6d28d9 !important; } /* Aktif: Ungu Tua */
-
-        body.theme-light .banner-dot.bg-white\/50,
-        body.theme-light .product-dot-ind.bg-white\/50 { background-color: #cbd5e1 !important; } /* Tidak Aktif: Abu-abu */
-
-        body.theme-light .ban-dot-ind.bg-slate-600 { background-color: #cbd5e1 !important; }
-
-        body.theme-light #themeToggleBtn { color: #6366f1 !important; background-color: #e0e7ff !important; }
-
-        #qris-poster-capture {
-            background: #fff; 
-            padding: 10px 12px 40px 12px; /* Diubah agar lebih seimbang */
-            position: relative;
-            overflow: hidden; 
-            text-align: center; 
-            border-radius: 16px 16px 0 0;
-            width: 100%;
-            max-width: 100%;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        #qrcode-container img, 
-        #qrcode-container canvas {
-            max-width: 100% !important;
-            height: auto !important;
-            margin: 0 auto;
-        }
-
-        .poster-shape-bottom {
-            position: absolute; right: -110px; bottom: -110px; width: 220px; height: 220px; 
-            background: linear-gradient(135deg, #0a1c3a 0%, #64b5f6 50%, #1e3c72 100%); 
-            transform: rotate(45deg); z-index: 1;
-        }
-        .poster-shape-top {
-            position: absolute; left: -200px; top: 70px; width: 300px; height: 300px; 
-            background: linear-gradient(135deg, #0a1c3a 0%, #64b5f6 50%, #1e3c72 100%); 
-            transform: rotate(45deg); z-index: 1;
-        }
-        .poster-content { position: relative; z-index: 5; }
+        /* =======================================================
+           10 TEMA SUPER PREMIUM (Glassmorphism, Neumorphism, Brutalist, dll)
+           ======================================================= */
         
-        #qrcode-container {
-            background: white; padding: 10px; display: inline-block; border-radius: 12px; margin-top: 5px; margin-bottom: 0px; position: relative; z-index: 10; box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        /* 1. DARK (Modern Dark Mode) - Gelap, elegan, kontras halus */
+        body.theme-dark { --c-brand-400: #a78bfa; --c-brand-500: #8b5cf6; --c-brand-600: #7c3aed; background: #0f172a !important; color: #f8fafc !important; }
+        body.theme-dark .bg-slate-800, body.theme-dark .bg-slate-900 { background-color: #1e293b !important; border-color: rgba(255, 255, 255, 0.05) !important; box-shadow: 0 10px 30px rgba(0,0,0,0.3) !important; }
+        body.theme-dark header, body.theme-dark nav#bottomNav { background-color: rgba(15, 23, 42, 0.9) !important; backdrop-filter: blur(10px); border-color: rgba(255,255,255,0.05) !important; }
+
+        /* 2. LIGHT (Minimalist & Clean) - Putih bersih, banyak ruang kosong, rapi */
+        body.theme-light { --c-brand-400: #60a5fa; --c-brand-500: #3b82f6; --c-brand-600: #2563eb; background: #ffffff !important; color: #0f172a !important; }
+        body.theme-light .bg-slate-800, body.theme-light .bg-slate-900, body.theme-light .bg-slate-950 { background-color: #ffffff !important; border-color: #f1f5f9 !important; box-shadow: 0 4px 20px rgba(0,0,0,0.03) !important; }
+        body.theme-light header, body.theme-light nav#bottomNav { background-color: rgba(255, 255, 255, 0.95) !important; backdrop-filter: blur(12px); border-color: #f1f5f9 !important; box-shadow: 0 2px 10px rgba(0,0,0,0.02) !important; }
+        body.theme-light .text-white:not(button *), body.theme-light .text-slate-100:not(button *), body.theme-light .text-slate-300:not(button *), body.theme-light .text-slate-400 { color: #334155 !important; }
+        body.theme-light button[class*="bg-slate-"] .text-white { color: #0f172a !important; }
+        body.theme-light .banner-dot.bg-white { background-color: var(--c-brand-600) !important; } body.theme-light .banner-dot.bg-white\/50 { background-color: #cbd5e1 !important; }
+
+        /* 3. SEPIA (Retro / Editorial) - Klasik, nuansa kertas koran/majalah */
+        body.theme-sepia { --c-brand-400: #d97706; --c-brand-500: #b45309; --c-brand-600: #92400e; background: #fdf6e3 !important; color: #433422 !important; font-family: Georgia, serif !important; }
+        body.theme-sepia .bg-slate-800, body.theme-sepia .bg-slate-900 { background-color: #eee8d5 !important; border: 1px solid #d7cdb4 !important; border-radius: 4px !important; box-shadow: 3px 3px 0px rgba(67, 52, 34, 0.15) !important; }
+        body.theme-sepia header, body.theme-sepia nav#bottomNav { background-color: #fdf6e3 !important; border-bottom: 2px solid #d7cdb4 !important; border-top: 2px solid #d7cdb4 !important; border-radius: 0 !important; }
+        body.theme-sepia .text-white:not(button *), body.theme-sepia .text-slate-100:not(button *), body.theme-sepia .text-slate-300:not(button *), body.theme-sepia .text-slate-400 { color: #433422 !important; }
+        body.theme-sepia button[class*="bg-slate-"] .text-white { color: #433422 !important; }
+
+        /* 4. OLED (Cyberpunk / High Contrast) - Hitam pekat, neon menyala */
+        body.theme-oled { --c-brand-400: #fde047; --c-brand-500: #eab308; --c-brand-600: #ca8a04; background: #000000 !important; color: #e2e8f0 !important; font-family: monospace !important; }
+        body.theme-oled .bg-slate-800, body.theme-oled .bg-slate-900 { background-color: #000000 !important; border: 1px solid #333 !important; border-radius: 0 !important; box-shadow: 0 0 8px rgba(234, 179, 8, 0.15) !important; }
+        body.theme-oled header, body.theme-oled nav#bottomNav { background-color: rgba(0, 0, 0, 0.95) !important; border-color: #eab308 !important; border-width: 1px !important; border-radius: 0 !important; box-shadow: 0 0 15px rgba(234, 179, 8, 0.2) !important;}
+        
+        /* 5. COSMIC (Glassmorphism / Futuristic) - Transparan, blur tebal, gradasi luar angkasa */
+        body.theme-cosmic { --c-brand-400: #e879f9; --c-brand-500: #d946ef; --c-brand-600: #c026d3; background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%) !important; background-attachment: fixed !important; color: #f1f5f9 !important; }
+        
+        /* Box / Cards (Produk, Testimoni, Banner, Iklan) */
+        body.theme-cosmic .bg-slate-800, body.theme-cosmic .bg-slate-900, body.theme-cosmic .bg-slate-800\/80, body.theme-cosmic .bg-slate-800\/60, body.theme-cosmic .bg-slate-950 { 
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.08) 0%, rgba(217, 70, 239, 0.08) 100%) !important; 
+            backdrop-filter: blur(24px) saturate(150%) !important; 
+            border: 1px solid rgba(217, 70, 239, 0.3) !important; 
+            box-shadow: inset 0 0 20px rgba(217, 70, 239, 0.1), 0 8px 32px 0 rgba(0, 0, 0, 0.4) !important; 
+        }
+        
+        /* Efek Hover untuk Card Produk / Ulasan / Iklan / Banner */
+        body.theme-cosmic .product-card-item:hover, body.theme-cosmic [data-testi-id]:hover, body.theme-cosmic a.hover\:border-brand-500:hover, body.theme-cosmic .banner-card-item:hover {
+            border-color: #e879f9 !important;
+            box-shadow: 0 0 25px rgba(232, 121, 249, 0.5), inset 0 0 15px rgba(232, 121, 249, 0.3) !important;
+            transform: translateY(-4px);
+            transition: all 0.3s ease;
         }
 
+        /* Navbar Atas & Bawah */
+        body.theme-cosmic header { 
+            background: linear-gradient(to right, rgba(15, 12, 41, 0.85), rgba(48, 43, 99, 0.85)) !important; 
+            backdrop-filter: blur(20px); 
+            border-bottom: 2px solid rgba(217, 70, 239, 0.5) !important; 
+            box-shadow: 0 4px 30px rgba(217, 70, 239, 0.3) !important; 
+        }
+        body.theme-cosmic nav#bottomNav { 
+            background: linear-gradient(to right, rgba(15, 12, 41, 0.85), rgba(48, 43, 99, 0.85)) !important; 
+            backdrop-filter: blur(20px); 
+            border-top: 2px solid rgba(217, 70, 239, 0.5) !important; 
+            box-shadow: 0 -4px 30px rgba(217, 70, 239, 0.3) !important; 
+        }
+        
+        /* 6. FOREST (Organic / Natural) - Warna bumi, sudut membulat lembut */
+        body.theme-forest { --c-brand-400: #34d399; --c-brand-500: #10b981; --c-brand-600: #059669; background: #eef2eb !important; color: #2f3e2d !important; }
+        body.theme-forest .bg-slate-800, body.theme-forest .bg-slate-900 { background-color: #ffffff !important; border-color: #d1d9cd !important; border-radius: 32px !important; box-shadow: 0 10px 30px rgba(47, 62, 45, 0.06) !important; }
+        body.theme-forest header, body.theme-forest nav#bottomNav { background-color: rgba(255, 255, 255, 0.95) !important; border-color: #d1d9cd !important; border-radius: 40px !important; margin: 10px; width: calc(100% - 20px); }
+        body.theme-forest .text-white:not(button *), body.theme-forest .text-slate-100:not(button *), body.theme-forest .text-slate-300:not(button *), body.theme-forest .text-slate-400 { color: #2f3e2d !important; }
+        body.theme-forest button[class*="bg-slate-"] .text-white { color: #2f3e2d !important; }
+
+        /* 7. OCEAN (Neumorphism) - Efek 3D seolah box timbul dari background (soft shadow) */
+        body.theme-ocean { --c-brand-400: #38bdf8; --c-brand-500: #0ea5e9; --c-brand-600: #0284c7; background: #e0e5ec !important; color: #4a5568 !important; }
+        body.theme-ocean .bg-slate-800, body.theme-ocean .bg-slate-900 { background-color: #e0e5ec !important; border: none !important; box-shadow: 9px 9px 16px rgba(163, 177, 198, 0.6), -9px -9px 16px rgba(255, 255, 255, 0.5) !important; border-radius: 20px !important; }
+        body.theme-ocean header, body.theme-ocean nav#bottomNav { background-color: #e0e5ec !important; border: none !important; box-shadow: 9px 9px 16px rgba(163, 177, 198, 0.6), -9px -9px 16px rgba(255, 255, 255, 0.5) !important; }
+        body.theme-ocean .text-white:not(button *), body.theme-ocean .text-slate-100:not(button *), body.theme-ocean .text-slate-300:not(button *), body.theme-ocean .text-slate-400 { color: #4a5568 !important; }
+        body.theme-ocean button[class*="bg-slate-"] .text-white { color: #4a5568 !important; }
+
+        /* 8. SUNSET (Elegant / Luxury) - Gelap pekat dengan aksen pinggiran warna emas */
+        body.theme-sunset { --c-brand-400: #facc15; --c-brand-500: #d4af37; --c-brand-600: #b5952f; background: #1a1a1a !important; color: #e5e5e5 !important; }
+        body.theme-sunset .bg-slate-800, body.theme-sunset .bg-slate-900 { background-color: #262626 !important; border: 1px solid #d4af37 !important; border-radius: 8px !important; box-shadow: 0 10px 25px rgba(212, 175, 55, 0.08) !important; }
+        body.theme-sunset header, body.theme-sunset nav#bottomNav { background-color: rgba(26, 26, 26, 0.95) !important; border-color: #d4af37 !important; }
+
+        /* 9. LAVENDER (Playful / Gradient) - Gradasi pastel ceria, sudut sangat membulat */
+        body.theme-lavender { --c-brand-400: #fb7185; --c-brand-500: #f43f5e; --c-brand-600: #e11d48; background: linear-gradient(135deg, #fdf4ff 0%, #f3e8ff 100%) !important; background-attachment: fixed !important; color: #701a75 !important; }
+        body.theme-lavender .bg-slate-800, body.theme-lavender .bg-slate-900 { background-color: rgba(255, 255, 255, 0.8) !important; border: 2px solid #e879f9 !important; border-radius: 40px !important; box-shadow: 0 15px 35px rgba(232, 121, 249, 0.15) !important; }
+        body.theme-lavender header, body.theme-lavender nav#bottomNav { background-color: rgba(255, 255, 255, 0.9) !important; border-color: #e879f9 !important; border-width: 2px !important; }
+        body.theme-lavender .text-white:not(button *), body.theme-lavender .text-slate-100:not(button *), body.theme-lavender .text-slate-300:not(button *), body.theme-lavender .text-slate-400 { color: #701a75 !important; }
+        body.theme-lavender button[class*="bg-slate-"] .text-white { color: #701a75 !important; }
+
+        /* 10. NEON (Brutalist) - Desain kasar, tegas, border super tebal, bayangan flat */
+        body.theme-neon { --c-brand-400: #22d3ee; --c-brand-500: #06b6d4; --c-brand-600: #0891b2; background: #fafafa !important; color: #000000 !important; font-weight: bold; }
+        body.theme-neon .bg-slate-800, body.theme-neon .bg-slate-900 { background-color: #ffffff !important; border: 4px solid #000000 !important; box-shadow: 8px 8px 0px #06b6d4 !important; border-radius: 0 !important; }
+        body.theme-neon header, body.theme-neon nav#bottomNav { background-color: #ffffff !important; border: 4px solid #000000 !important; box-shadow: 0 8px 0px #000000 !important; border-radius: 0 !important; margin-bottom: 5px; }
+        body.theme-neon .text-white:not(button *), body.theme-neon .text-slate-100:not(button *), body.theme-neon .text-slate-300:not(button *), body.theme-neon .text-slate-400 { color: #000000 !important; }
+        body.theme-neon button[class*="bg-slate-"] .text-white { color: #000000 !important; }
+        body.theme-neon .bg-slate-950 { background-color: #f4f4f5 !important; border: 2px solid #000 !important;}
+
+        /* KOREKSI WARNA AKSEN ICONS & BADGE SAAT MODE TERANG/SEPIA */
+        body.theme-light .text-brand-400, body.theme-sepia .text-brand-400, body.theme-forest .text-brand-400, body.theme-ocean .text-brand-400 { color: var(--c-brand-700) !important; }
+        body.theme-light .text-emerald-400, body.theme-sepia .text-emerald-400, body.theme-forest .text-emerald-400, body.theme-ocean .text-emerald-400 { color: #059669 !important; }
+        body.theme-light .text-rose-400, body.theme-sepia .text-rose-400, body.theme-forest .text-rose-400, body.theme-ocean .text-rose-400 { color: #e11d48 !important; }
+        
+        /* FIX WARNA TEXT INPUT & KOTAK DI TEMA TERANG */
+        body.theme-light input, body.theme-light textarea, body.theme-light select,
+        body.theme-sepia input, body.theme-sepia textarea, body.theme-sepia select,
+        body.theme-forest input, body.theme-forest textarea, body.theme-forest select,
+        body.theme-ocean input, body.theme-ocean textarea, body.theme-ocean select {
+            color: #000000 !important; background-color: rgba(255,255,255,0.8) !important; border-color: rgba(0,0,0,0.2) !important;
+        }
+        
+        body.theme-light .text-slate-300, body.theme-sepia .text-slate-300, body.theme-forest .text-slate-300, body.theme-ocean .text-slate-300 { color: #334155 !important; }
+        body.theme-light .text-slate-400, body.theme-sepia .text-slate-400, body.theme-forest .text-slate-400, body.theme-ocean .text-slate-400 { color: #475569 !important; }
+        body.theme-light .text-white, body.theme-sepia .text-white, body.theme-forest .text-white, body.theme-ocean .text-white { color: #0f172a !important; }
+        body.theme-light .bg-slate-800 .text-white, body.theme-light button .text-white { color: #ffffff !important; }
+
+        /* FIX NAVBAR BAWAH AGAR SOLID & JELAS DI SEMUA TEMA */
+        .nav-orb-active { 
+            background: linear-gradient(135deg, var(--c-brand-500), var(--c-accent-500)) !important;
+            border-color: transparent !important; 
+            box-shadow: 0 4px 15px rgba(0,0,0,0.4) !important;
+        }
+        body.theme-light .nav-orb-active i, body.theme-sepia .nav-orb-active i, body.theme-forest .nav-orb-active i, body.theme-ocean .nav-orb-active i { color: #ffffff !important; }
+        
+        #qris-poster-capture { background: #fff; padding: 10px 12px 40px 12px; position: relative; overflow: hidden; text-align: center; border-radius: 16px 16px 0 0; width: 100%; max-width: 100%; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        #qrcode-container img, #qrcode-container canvas { max-width: 100% !important; height: auto !important; margin: 0 auto; }
+        .poster-shape-bottom { position: absolute; right: -110px; bottom: -110px; width: 220px; height: 220px; background: linear-gradient(135deg, #0a1c3a 0%, #64b5f6 50%, #1e3c72 100%); transform: rotate(45deg); z-index: 1; }
+        .poster-shape-top { position: absolute; left: -200px; top: 70px; width: 300px; height: 300px; background: linear-gradient(135deg, #0a1c3a 0%, #64b5f6 50%, #1e3c72 100%); transform: rotate(45deg); z-index: 1; }
+        .poster-content { position: relative; z-index: 5; }
+        #qrcode-container { background: white; padding: 10px; display: inline-block; border-radius: 12px; margin-top: 5px; margin-bottom: 0px; position: relative; z-index: 10; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
         .social-dd-btn { cursor: pointer; user-select: none; -webkit-tap-highlight-color: transparent; text-align: left; }
         .social-dd-item { cursor: pointer; -webkit-tap-highlight-color: transparent; }
-
-        body.theme-light .social-dd-btn { background-color: #ffffff !important; color: #0f172a !important; border-color: #cbd5e1 !important; box-shadow: 0 2px 6px rgba(0,0,0,0.06) !important; }
-        body.theme-light .social-dd-btn:hover { border-color: #38bdf8 !important; }
-        body.theme-light .social-dd-btn .fa-chevron-down { color: #64748b !important; }
-        body.theme-light .social-dd-list { background-color: #ffffff !important; border-color: #e2e8f0 !important; box-shadow: 0 12px 30px rgba(0,0,0,0.18) !important; }
-        body.theme-light .social-dd-item { color: #475569 !important; }
-        body.theme-light .social-dd-item:hover { background-color: #f1f5f9 !important; color: #0f172a !important; }
-        body.theme-light .social-dd-item .fa-brands { color: #0284c7 !important; }
-        body.theme-light .social-dd-label .fa-brands { color: #0284c7 !important; }
-        body.theme-light .social-row { background-color: #ffffff !important; border-color: #e2e8f0 !important; }
-        body.theme-light .social-url-input { background-color: #f8fafc !important; color: #0f172a !important; border-color: #e2e8f0 !important; }
-
     </style>
 
     <!-- Google tag (gtag.js) -->
@@ -364,14 +353,14 @@ Mewujudkan ide menjadi hasil cetak berkualitas untuk kebutuhan personal, bisnis,
 <body class="bg-slate-900 text-slate-100 flex flex-col min-h-screen pb-24 selection:bg-brand-500 selection:text-white">
 
     <!-- TOP NAVBAR -->
-    <header class="sticky top-0 z-40 bg-slate-900/80 backdrop-blur-xl border-b border-brand-500/30 shadow-[0_8px_20px_rgba(139,92,246,0.2)] rounded-b-2xl sm:rounded-b-3xl">
+    <header class="sticky top-0 z-40 bg-slate-900/80 backdrop-blur-xl border-b-2 border-brand-500/40 shadow-lg shadow-brand-500/20 rounded-b-2xl sm:rounded-b-3xl">
         <div class="max-w-7xl mx-auto px-4 h-16 sm:h-20 flex justify-between items-center gap-3">
             <div class="flex items-center gap-2 sm:gap-3 cursor-pointer shrink-0" onclick="switchTab('home')">
                 <div id="headerLogoContainer" class="w-8 h-8 sm:w-11 sm:h-11 bg-gradient-to-tr from-brand-600 to-indigo-400 rounded-xl sm:rounded-2xl flex items-center justify-center text-white shadow-lg shadow-brand-500/30 overflow-hidden shrink-0">
                     <i class="fa-solid fa-gem text-sm sm:text-lg"></i>
                 </div>
-                <div class="hidden min-[360px]:block">
-                    <h1 class="font-bold text-base sm:text-xl text-white tracking-tight" id="headerStoreName">Toko Saya</h1>
+                <div class="hidden min-[360px]:block flex-1 min-w-0 max-w-[130px] sm:max-w-[250px]">
+                    <h1 class="font-bold text-base sm:text-xl text-white tracking-tight truncate" id="headerStoreName">Toko Saya</h1>
                 </div>
             </div>
             
@@ -383,10 +372,34 @@ Mewujudkan ide menjadi hasil cetak berkualitas untuk kebutuhan personal, bisnis,
                     <span class="text-[6px] sm:text-[8px] font-semibold leading-none mt-[1px]">Bantuan</span>
 				</button>
 
-                <!-- TOMBOL TEMA (DARK/LIGHT) -->
-                <button onclick="toggleTheme()" id="themeToggleBtn" class="flex flex-col items-center justify-center w-10 h-9 sm:w-14 sm:h-11 bg-slate-800 border border-slate-700 text-slate-300 hover:text-white hover:bg-slate-700 rounded-lg transition shadow-sm shrink-0" title="Ganti Tema">
-                    <!-- JS akan merender isinya -->
-                </button>
+                <!-- CUSTOM DROPDOWN TEMA & WARNA -->
+                <div class="relative z-50" id="themeDropdownContainer">
+                    <button onclick="toggleThemeDropdown(event)" id="themeToggleBtn" class="flex flex-col items-center justify-center w-10 h-9 sm:w-14 sm:h-11 bg-slate-800 border border-slate-700 text-slate-300 hover:text-white hover:bg-slate-700 rounded-lg transition shadow-sm shrink-0" title="Personalisasi Tema">
+                        <i class="fa-solid fa-palette text-xs sm:text-sm"></i>
+                        <span class="text-[6px] sm:text-[8px] font-semibold leading-none mt-[1px]">Tema</span>
+                    </button>
+
+                    <!-- ISI DROPDOWN (HANYA 10 TEMA UTAMA) -->
+                    <div id="themeDropdownList" class="absolute right-0 top-full mt-3 w-64 bg-slate-800/95 backdrop-blur-xl border border-slate-600 rounded-2xl shadow-2xl overflow-hidden hidden transform origin-top-right transition-all z-50 p-4">
+                        <p class="text-[9px] sm:text-[10px] text-slate-400 font-bold mb-2.5 uppercase tracking-wider"><i class="fa-solid fa-circle-half-stroke mr-1"></i> Latar Belakang (Mode)</p>
+                        <div class="grid grid-cols-2 gap-2 mb-2">
+                            <button onclick="setUserTheme('dark')" class="theme-btn-dark py-2 bg-slate-900 border border-slate-700 hover:border-brand-500 rounded-xl text-[10px] sm:text-xs text-white flex items-center justify-center gap-1.5 transition shadow-sm"><i class="fa-solid fa-moon text-purple-400"></i> Gelap</button>
+                            <button onclick="setUserTheme('light')" class="theme-btn-light py-2 bg-slate-900 border border-slate-700 hover:border-brand-500 rounded-xl text-[10px] sm:text-xs text-white flex items-center justify-center gap-1.5 transition shadow-sm"><i class="fa-solid fa-sun text-amber-400"></i> Terang</button>
+                            
+                            <button onclick="setUserTheme('sepia')" class="theme-btn-sepia py-2 bg-slate-900 border border-slate-700 hover:border-brand-500 rounded-xl text-[10px] sm:text-xs text-white flex items-center justify-center gap-1.5 transition shadow-sm"><i class="fa-solid fa-book-open text-orange-300"></i> Sepia</button>
+                            <button onclick="setUserTheme('oled')" class="theme-btn-oled py-2 bg-slate-900 border border-slate-700 hover:border-brand-500 rounded-xl text-[10px] sm:text-xs text-white flex items-center justify-center gap-1.5 transition shadow-sm"><i class="fa-solid fa-mobile-screen text-teal-400"></i> OLED</button>
+                            
+                            <button onclick="setUserTheme('cosmic')" class="theme-btn-cosmic py-2 bg-gradient-to-br from-purple-900 to-indigo-900 border border-purple-500/50 hover:border-brand-500 rounded-xl text-[10px] sm:text-xs text-white flex items-center justify-center gap-1.5 transition shadow-sm"><i class="fa-solid fa-meteor text-fuchsia-400"></i> Cosmic</button>
+                            <button onclick="setUserTheme('forest')" class="theme-btn-forest py-2 bg-gradient-to-br from-emerald-900 to-teal-900 border border-emerald-500/50 hover:border-brand-500 rounded-xl text-[10px] sm:text-xs text-white flex items-center justify-center gap-1.5 transition shadow-sm"><i class="fa-solid fa-leaf text-emerald-400"></i> Forest</button>
+                            
+                            <button onclick="setUserTheme('ocean')" class="theme-btn-ocean py-2 bg-gradient-to-br from-sky-900 to-blue-900 border border-blue-500/50 hover:border-brand-500 rounded-xl text-[10px] sm:text-xs text-white flex items-center justify-center gap-1.5 transition shadow-sm"><i class="fa-solid fa-water text-sky-400"></i> Ocean</button>
+                            <button onclick="setUserTheme('sunset')" class="theme-btn-sunset py-2 bg-gradient-to-br from-red-900 to-orange-900 border border-orange-500/50 hover:border-brand-500 rounded-xl text-[10px] sm:text-xs text-white flex items-center justify-center gap-1.5 transition shadow-sm"><i class="fa-solid fa-fire text-orange-400"></i> Sunset</button>
+
+                            <button onclick="setUserTheme('lavender')" class="theme-btn-lavender py-2 bg-gradient-to-br from-indigo-900 to-purple-900 border border-indigo-500/50 hover:border-brand-500 rounded-xl text-[10px] sm:text-xs text-white flex items-center justify-center gap-1.5 transition shadow-sm"><i class="fa-solid fa-spa text-pink-400"></i> Lavender</button>
+                            <button onclick="setUserTheme('neon')" class="theme-btn-neon py-2 bg-slate-950 border border-cyan-500/50 hover:border-brand-500 rounded-xl text-[10px] sm:text-xs text-white flex items-center justify-center gap-1.5 transition shadow-[inset_0_0_8px_rgba(6,182,212,0.3)]"><i class="fa-solid fa-bolt text-cyan-400"></i> Neon</button>
+                        </div>
+                    </div>
+                </div>
                 
                 <!-- TOMBOL KERANJANG -->
                 <button onclick="switchTab('cart')" class="relative flex flex-col items-center justify-center w-10 h-9 sm:w-14 sm:h-11 bg-slate-800 border border-slate-700 text-slate-300 hover:text-white hover:bg-slate-700 rounded-lg transition shadow-sm shrink-0">
@@ -406,7 +419,7 @@ Mewujudkan ide menjadi hasil cetak berkualitas untuk kebutuhan personal, bisnis,
     </main>
 
     <!-- BOTTOM NAVBAR -->
-    <nav class="fixed bottom-0 left-0 right-0 bg-slate-900/95 backdrop-blur-xl border-t border-brand-500/30 py-2 sm:py-3 px-6 z-50 shadow-[0_-8px_20px_rgba(139,92,246,0.25)] rounded-t-2xl sm:rounded-t-3xl transition-all duration-300" id="bottomNav">
+    <nav class="fixed bottom-0 left-0 right-0 w-full bg-slate-900/95 backdrop-blur-xl border-t-2 border-brand-500/40 py-2 sm:py-3 px-6 z-[60] shadow-[0_-8px_20px_rgba(0,0,0,0.3)] rounded-t-2xl sm:rounded-t-3xl" id="bottomNav">
         <div class="max-w-md mx-auto flex justify-between items-center text-slate-400" id="bottomNavContent">
             <!-- Render dinamis via JS -->
         </div>
@@ -859,9 +872,10 @@ Mewujudkan ide menjadi hasil cetak berkualitas untuk kebutuhan personal, bisnis,
 
         // --- DATA DB START ---
         let products = [{"id":1788854667538,"name":"Map Folder Custom","category":"Map","price":"Rp 0","origPrice":"","rating":"5.0","badge":"Jasa Cetak","sold":"0","stockType":"tersedia","stockQty":"0","desc":"Map kertas Art Carton tebal dengan kantong dalam, cocok untuk dokumen presentasi.","videoUrl":"","images":["https://via.placeholder.com/600"],"isBanner":true,"isVisible":true,"allowMultipleQty":true},{"id":1788854620665,"name":"Amplop Custom Logo","category":"Amplop","price":"Rp 0","origPrice":"","rating":"5.0","badge":"Jasa Cetak","sold":"0","stockType":"tersedia","stockQty":"0","desc":"Cetak amplop standar atau kabinet dengan logo dan alamat perusahaan Anda.","videoUrl":"","images":["https://via.placeholder.com/600"],"isBanner":true,"isVisible":true,"allowMultipleQty":true},{"id":1788854380081,"name":"Kop Surat (HVS 80gsm/100gsm)","category":"Kertas","price":"Rp 0","origPrice":"","rating":"5.0","badge":"HVS","sold":"0","stockType":"tersedia","stockQty":"0","desc":"Kop surat resmi perusahaan cetak full color dengan kualitas warna tajam.","videoUrl":"","images":["https://via.placeholder.com/600"],"isBanner":true,"isVisible":true,"allowMultipleQty":true},{"id":1788854179406,"name":"Kartu Nama Premium (Art Carton 260gsm)","category":"Kertas A3+","price":"Rp 0","origPrice":"","rating":"5.0","badge":"AC","sold":"0","stockType":"tersedia","stockQty":"0","desc":"Cetak kartu nama dua sisi dengan pilihan laminasi doff atau glossy untuk kesan profesional.","videoUrl":"","images":["https://via.placeholder.com/600"],"isBanner":true,"isVisible":true,"allowMultipleQty":true}];
-        let profile = {"name":"DSIDE GRAPHIA","email":"dsidegraphia@gmail.com","status":"Aktif","initial":"DS","logo":"https://i.ibb.co.com/sdf9kZz3/b7ac853bee23.png","whatsapp":"087838333993","logoOriginal":"https://i.ibb.co.com/NdSFDjPP/b3e27212dfb4.png","logoCropData":{"x":100.46971259117123,"y":102.44986829757684,"width":705.6205709457398,"height":705.6205709457398,"rotate":0,"scaleX":1,"scaleY":1},"description":"DSIDE GRAPHIA | Digital Printing & Percetakan\nMewujudkan ide menjadi hasil cetak berkualitas untuk kebutuhan personal, bisnis, promosi, dan berbagai kebutuhan kreatif. Cepat, berkualitas, dan profesional.","faviconUrl":"https://i.ibb.co.com/rfvhvS9c/b2029607fd33.png","tagline":"Kualitas Cetak, Kepuasan Utama","domainUrl":"https://dsidegraphia.github.io","gaId":"G-86C3FJ9CKD","defaultTheme":"auto","payWA":true,"payTransfer":true,"qrisRaw":"","payQRIS":false,"socials":[{"icon":"fa-whatsapp","url":"https://wa.me/6287838333993"},{"icon":"fa-tiktok","url":"https://tiktok.com/@dsidegraphia_"},{"icon":"fa-facebook","url":"https://www.facebook.com/@SIDEGraphia"}],"footerText":"DSIDE GRAPHIA","isLandingPage":true,"showBannerSection":true,"showTestiSection":true,"creatorName":"CodeOn Apps","creatorUrl":"https://codeonapps.github.io","address":"Jl. By Pass Cadangpinggan - Kertasemaya, Cadangpinggan, Kec. Sukagumiwang, Kabupaten Indramayu, Jawa Barat 45275"};
+        let profile = {"name":"DSIDE GRAPHIA","email":"dsidegraphia@gmail.com","status":"Aktif","initial":"DS","logo":"https://i.ibb.co.com/sdf9kZz3/b7ac853bee23.png","whatsapp":"087838333993","logoOriginal":"https://i.ibb.co.com/NdSFDjPP/b3e27212dfb4.png","logoCropData":{"x":100.46971259117123,"y":102.44986829757684,"width":705.6205709457398,"height":705.6205709457398,"rotate":0,"scaleX":1,"scaleY":1},"description":"DSIDE GRAPHIA | Digital Printing & Percetakan\nMewujudkan ide menjadi hasil cetak berkualitas untuk kebutuhan personal, bisnis, promosi, dan berbagai kebutuhan kreatif. Cepat, berkualitas, dan profesional.","faviconUrl":"https://i.ibb.co.com/rfvhvS9c/b2029607fd33.png","tagline":"Kualitas Cetak, Kepuasan Utama","domainUrl":"https://dsidegraphia.github.io","gaId":"G-86C3FJ9CKD","defaultTheme":"cosmic","payWA":true,"payTransfer":true,"qrisRaw":"","payQRIS":false,"socials":[{"icon":"fa-whatsapp","url":"https://wa.me/6287838333993"},{"icon":"fa-tiktok","url":"https://tiktok.com/@dsidegraphia_"},{"icon":"fa-facebook","url":"https://www.facebook.com/@SIDEGraphia"}],"footerText":"DSIDE GRAPHIA","isLandingPage":true,"showBannerSection":true,"showTestiSection":true,"creatorName":"CodeOn Apps","creatorUrl":"https://codeonapps.github.io","address":"Jl. By Pass Cadangpinggan - Kertasemaya, Cadangpinggan, Kec. Sukagumiwang, Kabupaten Indramayu, Jawa Barat 45275","colorTheme":"berry"};
         let banners = [{"id":1788851746042,"label":"Deskripsi","title":"DSIDE GRAPHIA | Digital Printing & Percetakan","desc":"Mewujudkan ide menjadi hasil cetak berkualitas untuk kebutuhan personal, bisnis, promosi, dan berbagai kebutuhan kreatif. Cepat, berkualitas, dan profesional.","images":["https://i.ibb.co.com/NdSFDjPP/b3e27212dfb4.png"]}];
         let testimonials = [{"id":1785934807388,"name":"Maya","message":"Jarang nemu developer lokal yang jual produk sebagus ini dengan harga miring. Fiturnya sekelas aplikasi premium. Jangan ragu beli di sini! 😍","isVisible":true},{"id":1785934775297,"name":"Koperasi Warga","message":"Sistem pendataan jadi lebih rapi sejak pakai aplikasi dari CodeOn. Laporan bulanannya detail banget dan bisa langsung di-export.","isVisible":true},{"id":1785934748087,"name":"Denny","message":"Aplikasinya minim error. Kemarin ada kendala cetak struk thermal, lapor ke admin langsung dikasih panduan setting printernya hari itu juga. Keren! 🚀","isVisible":true},{"id":1785934714713,"name":"Optik Sejahtera","message":"Sudah coba banyak aplikasi kasir, tapi ini yang paling pas di hati. Tanpa langganan bulanan, beli sekali pakai selamanya. Sangat hemat.","isVisible":true},{"id":1785934681344,"name":"Siska","message":"Proses order via WA-nya cepet. Adminnya ramah dan ngasih solusi yang pas buat kebutuhan pembukuan toko baju saya. ✨","isVisible":true},{"id":1785934650113,"name":"Reza Fahlevi","message":"Beli script di sini gak pernah ngecewain. Kodenya bersih (clean code) dan gampang dimodifikasi lagi buat project kampus. Thank you!","isVisible":true},{"id":1785934619589,"name":"Kang Mus (Warkop)","message":"Mantul! Transaksi jadi lebih cepet. Yang paling penting database aman karena tersimpan offline di PC kita sendiri. 💯","isVisible":true},{"id":1785934583545,"name":"H. Rohman","message":"Lembur Pro ngebantu banget buat ngurus absen dan lembur karyawan pabrik saya. Hitungannya akurat, gak perlu repot pakai Excel lagi.","isVisible":true},{"id":1785934544116,"name":"Dina Lestari","message":"Suka banget sama desain UI aplikasinya, rapi dan modern. Klien saya juga puas sama hasilnya. Nanti pasti order produk digital yang lain.","isVisible":true},{"id":1785934503402,"name":"Fajar Setiawan","message":"Checkout gampang, akses file langsung dikirim. Gak pake ribet nunggu lama. Aplikasinya juga ringan pas dijalankan di laptop jadul. 💻","isVisible":true},{"id":1785934440682,"name":"Toko Berkah","message":"Harga sangat terjangkau untuk fitur selengkap ini. Udah dipakai seminggu di minimarket dan gak ada bug sama sekali. Recommended!","isVisible":true},{"id":1785934410829,"name":"Andi Wijaya","message":"Adminnya fast respon banget! Kemarin ada kendala pas setting awal, langsung dipandu via WA sampai tuntas. Pelayanan bintang 5 ⭐⭐⭐⭐⭐","isVisible":true},{"id":1785934378838,"name":"CV. Maju Bersama","message":"Fitur QRIS offline-nya juara. Sangat fungsional dan UI-nya juga responsif. Sukses terus buat developernya. 🔥\"","isVisible":true},{"id":"1785934338294","name":"Rina Amelia","message":"Awalnya ragu beli source code di sini, ternyata panduannya super lengkap. tanpa Instalasi gampang banget buat pemula. Terima kasih CodeOn!","isVisible":true},{"id":1785934079784,"name":"Budi Santoso","message":"Aplikasi kasir offline-nya beneran ngebantu warung saya. Gak perlu mikir kuota internet lagi buat rekap jualan tiap hari. Mantap mas! 👍","isVisible":true}];
+        let adsData = [{"id":"1","image":"https://i.ibb.co.com/35LcKRsm/273f83994c10.png","url":"https://google.com","placement":"after_banner","isVisible":true},{"id":"2","image":"https://i.ibb.co.com/nsPRgwNK/2a5ef247d079.png","url":"https://youtube.com","placement":"after_banner","isVisible":true},{"id":"3","image":"https://i.ibb.co.com/Q33YKQDF/4f160967b738.png","url":"https://github.com","placement":"after_banner","isVisible":true},{"id":"4","image":"https://i.ibb.co.com/vvZkr5bM/2b72730cd108.png","url":"https://github.com","placement":"after_banner","isVisible":true}];
         // --- DATA DB END ---
 
         let cart = [];
@@ -888,7 +902,10 @@ Mewujudkan ide menjadi hasil cetak berkualitas untuk kebutuhan personal, bisnis,
         let adminSearchQuery = '';
         let temporaryBase64Images = [];
         let tempProfileLogo = "";
-        let tempProfileFavicon = ""; // TAMBAHKAN INI
+        let tempProfileFavicon = ""; 
+        let tempProfileFaviconOriginal = "";
+        let tempProfileFaviconCropData = null;
+        let isCroppingFavicon = false; // Penanda mode crop saat ini
 
         
         let tempBanImages = [];
@@ -1001,6 +1018,57 @@ Mewujudkan ide menjadi hasil cetak berkualitas untuk kebutuhan personal, bisnis,
             }
         }
 
+        // FITUR ADMIN TELAH DIHAPUS SECARA PERMANEN DARI CLONE INI UNTUK KEAMANAN.======================================================================
+        
+
+        // =========================================================================
+        // --- FRONTEND FUNCTIONS ---
+        // (Fungsi-fungsi di bawah ini aman dan akan tetap ada di Clone App)
+        // =========================================================================
+
+        // --- SISTEM TEMA DINAMIS (FRONTEND & ADMIN) ---
+        function toggleThemeDropdown(e) {
+            e.stopPropagation();
+            document.getElementById('themeDropdownList').classList.toggle('hidden');
+        }
+
+        function setUserTheme(mode) {
+            savedThemeStr = mode;
+            // Simpan KHUSUS untuk toko yang sedang aktif
+            if (typeof profile !== 'undefined') {
+                profile.defaultTheme = mode;
+                if (typeof saveData === 'function') saveData();
+            }
+            // Hapus cache global yang lama jika ada
+            localStorage.removeItem('lux_user_theme');
+            localStorage.removeItem('lux_user_color'); 
+            
+            initTheme();
+            const modeNames = { 'dark': 'Gelap', 'light': 'Terang', 'sepia': 'Sepia', 'oled': 'OLED', 'cosmic': 'Cosmic', 'forest': 'Forest', 'ocean': 'Ocean', 'sunset': 'Sunset', 'lavender': 'Lavender', 'neon': 'Neon' };
+            showToast(`Tema Latar ${modeNames[mode]} Aktif`, 'success');
+        }
+
+        function initTheme() {
+            // Baca murni dari profil toko saat ini
+            const finalTheme = (typeof profile !== 'undefined' && profile.defaultTheme) ? profile.defaultTheme : (savedThemeStr || 'dark');
+            
+            // Bersihkan SEMUA class tema latar (ada 10 sekarang)
+            document.body.classList.remove('theme-dark', 'theme-light', 'theme-sepia', 'theme-oled', 'theme-cosmic', 'theme-forest', 'theme-ocean', 'theme-sunset', 'theme-lavender', 'theme-neon');
+            
+            // Pasang class latar yang terpilih
+            if(finalTheme) document.body.classList.add('theme-' + finalTheme);
+
+            // PENANDA TEMA AKTIF (Kotak Mode) - Hapus efek dari semua tombol dulu
+            document.querySelectorAll('[class*="theme-btn-"]').forEach(el => {
+                el.classList.remove('border-brand-500', 'bg-brand-500/20', 'text-brand-400', 'font-bold', 'ring-1', 'ring-brand-500');
+            });
+            // Beri efek pada tombol tema yang sedang aktif
+            const activeModeBtn = document.querySelector('.theme-btn-' + finalTheme);
+            if(activeModeBtn) {
+                activeModeBtn.classList.add('border-brand-500', 'bg-brand-500/20', 'text-brand-400', 'font-bold', 'ring-1', 'ring-brand-500');
+            }
+        }
+
         // Fungsi khusus format WA
         function formatWA(number) {
             if (!number) return '';
@@ -1061,6 +1129,7 @@ function moveBanner(id, dir) {
             await setDB(prefix + 'imgbb_key', imgbbApiKey);
             await setDB(prefix + 'compress_img', String(enableImageCompression));
             await setDB(prefix + 'theme', savedThemeStr);
+            await setDB(prefix + 'ads', JSON.stringify(adsData));
             updateActiveBanners();
         }
 
@@ -1092,14 +1161,24 @@ if(topCartBtn) topCartBtn.style.display = profile.isLandingPage ? 'none' : 'bloc
             if(ogDesc) ogDesc.content = storeDesc;
             if(ogUrl) ogUrl.content = window.location.href; 
             
-            if(headerStoreName) headerStoreName.innerText = storeName; // Tetap gunakan Nama Tampilan (tanpa tagline) untuk navbar
+            if(headerStoreName) {
+                headerStoreName.innerText = storeName; 
+                const titleWrapper = headerStoreName.parentElement;
+                if (profile.hideStoreName) {
+                    titleWrapper.style.display = 'none';
+                } else {
+                    titleWrapper.style.display = '';
+                }
+            }
 
             if (profile.logo) {
                 if(favicon) favicon.href = profile.logo; 
                 if(ogImage) ogImage.content = profile.logo; 
                 if(headerLogo) {
-                    headerLogo.className = "w-8 h-8 sm:w-11 sm:h-11 rounded-xl sm:rounded-2xl flex items-center justify-center overflow-hidden shrink-0 bg-transparent";
-                    headerLogo.innerHTML = `<img src="${profile.logo}" class="w-full h-full object-contain">`;
+                    // Hapus paksaan w-8 dan w-11 di wadahnya
+                    headerLogo.className = "h-8 sm:h-11 rounded-xl sm:rounded-2xl flex items-center justify-center overflow-hidden shrink-0 bg-transparent";
+                    // Terapkan w-auto pada gambarnya agar lebarnya menyesuaikan
+                    headerLogo.innerHTML = `<img src="${profile.logo}" class="h-full w-auto max-w-[150px] sm:max-w-[160px] object-contain">`;
                 }
             } else {
                 if(favicon) favicon.href = 'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90"> </text></svg>';
@@ -1160,7 +1239,7 @@ if(topCartBtn) topCartBtn.style.display = profile.isLandingPage ? 'none' : 'bloc
             renderMainContent();
             updateAuthButton(); // <-- TAMBAHAN KODE: Otomatis memutar tombol Admin/Beranda di Top Nav
             if (tab === 'home') {
-                setTimeout(() => { initBannerSlider(); initTestiSlider(); }, 100);
+                setTimeout(() => { initBannerSlider(); initTestiSlider(); initAdSliders(); }, 100);
             }
             window.scrollTo({ top: 0, behavior: 'smooth' });
 
@@ -1178,8 +1257,8 @@ if(topCartBtn) topCartBtn.style.display = profile.isLandingPage ? 'none' : 'bloc
                 // NAVBAR BAWAH MENJADI FOOTER STATIS (IKUT TERSCROLL)
                 if(bottomNavEl) {
                     bottomNavEl.style.display = 'block';
-                    // Mengubah 'fixed' menjadi 'relative' agar posisinya mengikuti scroll halaman paling bawah
-                    bottomNavEl.className = "relative w-full bg-transparent py-6 px-6 z-10 transition-all duration-300 mt-auto";
+                	// Mengubah 'fixed' menjadi 'relative' agar posisinya mengikuti scroll halaman paling bawah
+                	bottomNavEl.className = "relative w-full bg-transparent py-6 px-6 z-10 transition-colors duration-300 mt-auto";
                 }
                 // Hapus padding bawah body karena footer tidak lagi melayang menutupi konten
                 document.body.classList.remove('pb-24'); 
@@ -1205,8 +1284,8 @@ if(topCartBtn) topCartBtn.style.display = profile.isLandingPage ? 'none' : 'bloc
             // --- TAMPILAN NAVBAR NORMAL ---
             if(bottomNavEl) {
                 bottomNavEl.style.display = 'block';
-                // Kembalikan class aslinya (ada background blur, border, dan bayangan)
-                bottomNavEl.className = "fixed bottom-0 left-0 right-0 bg-slate-900/95 backdrop-blur-xl border-t border-brand-500/30 py-2 sm:py-3 px-6 z-50 shadow-[0_-8px_20px_rgba(139,92,246,0.25)] rounded-t-2xl sm:rounded-t-3xl transition-all duration-300";
+                // Hapus semua transisi, paksa statis absolut di bawah
+                bottomNavEl.className = "fixed bottom-0 left-0 right-0 w-full bg-slate-900/95 backdrop-blur-xl border-t-2 border-brand-500/40 py-2 sm:py-3 px-6 z-[60] shadow-[0_-8px_20px_rgba(0,0,0,0.3)] rounded-t-2xl sm:rounded-t-3xl !transition-none !transform-none";
             }
             document.body.classList.remove('pb-16');
             document.body.classList.add('pb-24');
@@ -1301,6 +1380,88 @@ if(topCartBtn) topCartBtn.style.display = profile.isLandingPage ? 'none' : 'bloc
             }
         }
 
+        // --- SISTEM SLIDER IKLAN ---
+        let adIntervals = {};
+        function renderAdsHtml(placementTarget) {
+            const activeAds = adsData.filter(ad => ad.isVisible !== false && ad.placement === placementTarget);
+            const len = activeAds.length;
+            if(len === 0) return '';
+
+            let sliderId = 'adTrack_' + placementTarget;
+            
+            // Logika Responsif: Pembagian Kolom Sesuai Jumlah Iklan
+            let mobileClass = len === 1 ? 'w-full' : (len === 2 ? 'w-1/2' : 'w-1/3'); // Mobile: Maksimal 3 kolom
+            let desktopClass = '';
+            if (len === 1) desktopClass = 'md:w-full';
+            else if (len === 2) desktopClass = 'md:w-1/2';
+            else if (len === 3) desktopClass = 'md:w-1/3';
+            else if (len === 4) desktopClass = 'md:w-1/4';
+            else desktopClass = 'md:w-1/5'; // PC: Maksimal 5 kolom per layar
+
+            let adsHtml = activeAds.map(ad => `
+                <div class="${mobileClass} ${desktopClass} shrink-0 px-1 sm:px-2 py-1 flex">
+                    <a href="${ad.url}" target="_blank" rel="noopener noreferrer" class="block w-full h-full rounded-xl sm:rounded-2xl overflow-hidden shadow-md border border-slate-700/50 hover:border-brand-500 transition-colors flex">
+                        <img src="${ad.image}" alt="Promo Sponsor Toko" loading="lazy" class="w-full h-full object-fill max-h-[80px] sm:max-h-[120px]" onerror="this.outerHTML='<div class=\\\'w-full h-24 bg-slate-800 flex items-center justify-center text-slate-500\\\'><i class=\\\'fa-solid fa-ad text-3xl\\\'></i></div>'">
+                    </a>
+                </div>
+            `).join('');
+
+            return `
+            <div class="w-full mb-6 sm:mb-8 overflow-hidden relative group -mx-1 sm:-mx-2">
+                <div id="${sliderId}" class="flex items-stretch w-full transition-transform duration-500 ease-in-out" style="transform: translateX(0px);" data-current-index="0" data-total="${len}">
+                    ${len > 1 ? adsHtml + adsHtml + adsHtml : adsHtml}
+                </div>
+            </div>`;
+        }
+
+        function initAdSliders() {
+            Object.values(adIntervals).forEach(clearInterval);
+            adIntervals = {};
+            
+            const placements = ['after_banner', 'after_testi', 'after_products', 'after_promo'];
+            placements.forEach(placement => {
+                const track = document.getElementById('adTrack_' + placement);
+                if (track && track.children.length > 0) {
+                    const totalOriginal = parseInt(track.getAttribute('data-total'));
+                    
+                    if(totalOriginal > 1) {
+                        adIntervals[placement] = setInterval(() => {
+                            let currentIndex = parseInt(track.getAttribute('data-current-index'));
+                            currentIndex++;
+                            
+                            // Perhitungan pergeseran presisi berbasis lebar asli elemen
+                            const itemWidth = track.firstElementChild.offsetWidth;
+                            
+                            track.style.transition = 'transform 500ms ease-out';
+                            track.style.transform = `translateX(-${itemWidth * currentIndex}px)`;
+                            track.setAttribute('data-current-index', currentIndex);
+
+                            if(currentIndex === totalOriginal) {
+                                setTimeout(() => {
+                                    track.style.transition = 'none';
+                                    track.style.transform = `translateX(0px)`;
+                                    track.setAttribute('data-current-index', 0);
+                                }, 500);
+                            }
+                        }, 4000);
+                    }
+                }
+            });
+        }
+
+        // Auto-Reset jika layar perangkat diputar (Landscape/Portrait)
+        window.addEventListener('resize', () => {
+            const placements = ['after_banner', 'after_testi', 'after_products', 'after_promo'];
+            placements.forEach(placement => {
+                const track = document.getElementById('adTrack_' + placement);
+                if (track) {
+                    track.style.transition = 'none';
+                    track.style.transform = `translateX(0px)`;
+                    track.setAttribute('data-current-index', 0);
+                }
+            });
+        });
+
         function renderMainContent() {
             const container = document.getElementById('mainContainer');
             if (currentTab === 'home') {
@@ -1324,11 +1485,13 @@ if(topCartBtn) topCartBtn.style.display = profile.isLandingPage ? 'none' : 'bloc
                                    
                                     return `
                                     <div class="${slideWidthClass} flex-shrink-0 px-2 sm:px-3 py-1">
-                                        <div class="relative h-full bg-gradient-to-r from-brand-600 to-indigo-600 text-white p-4 sm:p-6 flex items-center gap-4 sm:gap-6 cursor-pointer rounded-2xl sm:rounded-3xl shadow-lg shadow-brand-500/20 overflow-hidden" ${popupClick}>
-                                            <div class="absolute -right-10 -bottom-10 w-40 h-40 sm:w-48 sm:h-48 bg-white/10 rounded-full blur-2xl sm:blur-3xl pointer-events-none"></div>
+                                        <div class="banner-card-item relative h-full bg-slate-800/80 backdrop-blur-md border border-slate-700/50 text-white p-4 sm:p-6 flex items-center gap-4 sm:gap-6 cursor-pointer rounded-2xl sm:rounded-3xl shadow-lg hover:border-brand-500/50 transition-all duration-300 overflow-hidden" ${popupClick}>
+                                            <div class="absolute -right-10 -bottom-10 w-40 h-40 sm:w-48 sm:h-48 bg-brand-500/10 rounded-full blur-2xl sm:blur-3xl pointer-events-none"></div>
                                             ${thumb ? `
-                                            <div class="w-24 sm:w-40 shrink-0 relative z-10">
-                                                <img src="${thumb}" class="w-full aspect-square sm:aspect-[4/3] object-cover rounded-xl shadow-lg border border-white/20 bg-slate-800">
+                                            <div class="w-24 sm:w-40 aspect-square sm:aspect-[4/3] shrink-0 relative z-10">
+                                                <div class="w-full h-full relative flex items-center justify-center bg-slate-900/50 rounded-xl shadow-lg border border-slate-700/50 overflow-hidden">
+                                                    <img src="${thumb}" onerror="this.outerHTML='<i class=\\\'fa-solid fa-image text-3xl text-slate-500\\\'></i>'" class="absolute inset-0 w-full h-full object-cover z-10">
+                                                </div>
                                                 <span class="absolute -top-2 -left-2 bg-rose-500 text-white text-[7px] sm:text-[9px] font-bold px-1.5 sm:px-2 py-0.5 sm:py-1 rounded shadow-md z-20 uppercase tracking-wider">${b.label}</span>
                                             </div>
                                             ` : ''}
@@ -1384,8 +1547,12 @@ if(topCartBtn) topCartBtn.style.display = profile.isLandingPage ? 'none' : 'bloc
                     </div>`;
                 }
 
+                // BLOK TESTIMONI DINAMIS (Dapat berpindah sesuai pengaturan)
+                let testiBlock = testiHtml + renderAdsHtml('after_testi');
+                let tPlace = profile.testiPlacement || 'after_banner';
+
                 // 3. HEADER KATALOG & PRODUK GRID
-                let html = bannerHtml + testiHtml + `
+                let html = bannerHtml + renderAdsHtml('after_banner') + (tPlace === 'after_banner' ? testiBlock : '') + `
                     <div class="relative w-full mb-6 sm:mb-8 bg-slate-800/30 rounded-2xl border border-slate-700/50 backdrop-blur-sm overflow-hidden min-h-[60px] sm:min-h-[72px] flex items-center shadow-sm mt-4">
                         <div id="koleksiHeaderNormal" class="absolute inset-0 w-full h-full flex justify-between items-center px-3 sm:px-4 transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] transform translate-x-0 opacity-100">
                             <div class="flex items-center gap-3">
@@ -1477,8 +1644,8 @@ if(topCartBtn) topCartBtn.style.display = profile.isLandingPage ? 'none' : 'bloc
 
                         html += `
                             <div class="bg-slate-800/80 backdrop-blur-md rounded-xl sm:rounded-2xl p-2.5 sm:p-3 border border-slate-700/80 shadow-lg hover:border-brand-500/50 transition-all duration-300 transform hover:-translate-y-1 ${displayClass} h-full" onclick="openProductModal('${p.id}')">
-                                <div class="relative aspect-square rounded-lg sm:rounded-xl overflow-hidden bg-slate-900 mb-2 sm:mb-3 shrink-0">
-                                    <img src="${p.images[0] || 'https://via.placeholder.com/150'}" alt="${p.name}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                                <div class="relative aspect-square rounded-lg sm:rounded-xl overflow-hidden bg-slate-900 mb-2 sm:mb-3 shrink-0 flex items-center justify-center">
+                                    <img src="${p.images[0] || ''}" alt="${p.name}" onerror="this.outerHTML='<i class=\\\'fa-solid fa-image text-4xl text-slate-600\\\'></i>'" class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-500 z-10">
                                     ${badgeHtml}
                                     ${cartIndicatorHtml}
                                     ${p.videoUrl ? `<button type="button" onclick="event.stopPropagation(); openVideoPopup('${p.videoUrl}')" class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-9 h-9 bg-rose-600/90 hover:bg-rose-500 text-white rounded-full flex items-center justify-center backdrop-blur-md transition-transform hover:scale-110 shadow-[0_0_15px_rgba(225,29,72,0.6)] z-30"><i class="fa-solid fa-play ml-0.5"></i></button>` : ''}
@@ -1506,6 +1673,9 @@ if(topCartBtn) topCartBtn.style.display = profile.isLandingPage ? 'none' : 'bloc
                 }
                 html += `</div>`;
 
+                // SISIPAN IKLAN SETELAH PRODUK
+                html += renderAdsHtml('after_products') + (tPlace === 'after_products' ? testiBlock : '');
+
                 // 4. KARTU PROMO BANNER (Di bawah produk - Khusus Landing Page hanya ambil banner murni)
                 let extraBannerHtml = '';
                 if (profile.isLandingPage && profile.showBannerSection !== false) {
@@ -1525,9 +1695,9 @@ if(topCartBtn) topCartBtn.style.display = profile.isLandingPage ? 'none' : 'bloc
                                     return `
                                     <div class="bg-slate-800/80 backdrop-blur-sm border border-slate-700/80 rounded-3xl overflow-hidden cursor-pointer group hover:border-brand-500/50 transition-all duration-300 shadow-lg flex flex-col h-full" onclick="openBannerPopup('${b.id}')">
                                         ${thumb ? `
-                                        <div class="relative w-full aspect-video overflow-hidden bg-slate-900 border-b border-slate-700/50 shrink-0">
-                                            <img src="${thumb}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-in-out">
-                                            <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/20 to-transparent opacity-80 group-hover:opacity-60 transition-opacity"></div>
+                                        <div class="relative w-full aspect-video overflow-hidden bg-slate-900 border-b border-slate-700/50 shrink-0 flex items-center justify-center">
+                                            <img src="${thumb}" onerror="this.outerHTML='<i class=\\\'fa-solid fa-image text-4xl text-slate-600\\\'></i>'" class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 ease-in-out z-10">
+                                            <div class="absolute inset-0 bg-gradient-to-t from-slate-900 via-slate-900/20 to-transparent opacity-80 group-hover:opacity-60 transition-opacity z-20"></div>
                                             <span class="absolute top-3 left-3 bg-brand-500 text-white text-[9px] font-bold px-2.5 py-1 rounded-full shadow-md uppercase tracking-wider z-20">${b.label}</span>
                                         </div>` : ''}
                                         <div class="p-5 sm:p-6 flex-grow flex flex-col">
@@ -1542,44 +1712,44 @@ if(topCartBtn) topCartBtn.style.display = profile.isLandingPage ? 'none' : 'bloc
                     }
                 }
 
+                // SISIPAN IKLAN SETELAH PROMO
+                extraBannerHtml += renderAdsHtml('after_promo') + (tPlace === 'after_promo' ? testiBlock : '');
+
                 // 5. KARTU PROFIL FOOTER (Paling bawah)
                 let profileFooterHtml = '';
                 if (profile.isLandingPage) {
                     const avatarHtml = profile.logo 
-                        ? `<img src="${profile.logo}" class="w-16 h-16 sm:w-20 sm:h-20 object-contain rounded-full shadow-lg border-2 border-brand-500 bg-slate-900">`
+                        ? `<img src="${profile.logo}" class="h-16 sm:h-20 w-auto max-w-[150px] sm:max-w-[220px] object-contain relative z-10">`
                         : `<div class="w-16 h-16 sm:w-20 sm:h-20 bg-gradient-to-tr from-brand-600 to-indigo-500 rounded-full flex items-center justify-center text-white text-2xl font-bold shadow-lg border-2 border-brand-500 uppercase">${profile.initial}</div>`;
                     
                     profileFooterHtml = `
                     <div class="mt-8 mb-4 sm:mb-8 bg-slate-800/80 rounded-3xl border border-slate-700/50 overflow-hidden relative shadow-xl flex flex-col md:flex-row">
-                        <div class="w-full md:w-1/2 p-6 sm:p-8 flex flex-col items-center md:items-start text-center md:text-left border-b md:border-b-0 md:border-r border-slate-700/50 relative z-10">
+                        <div class="w-full md:w-1/2 p-6 sm:p-8 flex flex-col items-center text-center border-b md:border-b-0 md:border-r border-slate-700/50 relative z-10">
                             ${avatarHtml}
-                            <h2 class="text-xl sm:text-2xl font-bold text-white mt-4 flex items-center gap-2">${profile.name} <i class="fa-solid fa-circle-check text-brand-500 text-sm"></i></h2>
-                            <p class="text-[11px] sm:text-xs text-brand-400 font-semibold tracking-wide uppercase mt-1">${profile.tagline || ''}</p>
-                            <p class="text-[11px] sm:text-sm text-slate-400 mt-3 leading-relaxed max-w-sm">${profile.description || ''}</p>
-                            <div class="mt-4 w-full flex justify-center md:justify-start">
+                            ${profile.hideStoreName ? '' : `<h2 class="text-xl sm:text-2xl font-bold text-white mt-4 flex items-center justify-center gap-2 w-full">${profile.name} <i class="fa-solid fa-circle-check text-brand-500 text-sm"></i></h2>`}
+                            ${profile.hideStoreName ? '' : `<p class="text-[11px] sm:text-xs text-brand-400 font-semibold tracking-wide uppercase mt-1">${profile.tagline || ''}</p>`}
+                            <p class="text-[11px] sm:text-sm text-slate-400 mt-3 leading-relaxed max-w-sm mx-auto">${profile.description || ''}</p>
+                            <div class="mt-4 w-full flex justify-center">
                                 ${renderSocialLinksHtml()}
                             </div>
                         </div>
-                        <div class="w-full md:w-1/2 p-6 sm:p-8 flex flex-col justify-center bg-slate-900/30 relative z-10">
-                            <h3 class="text-sm font-bold text-white mb-4 border-b border-slate-700/50 pb-2">Informasi Kontak</h3>
+                        <div class="w-full md:w-1/2 p-6 sm:p-8 flex flex-col justify-center text-left bg-slate-900/30 relative z-10">
+                            <h3 class="text-sm font-bold text-white mb-4 border-b border-slate-700/50 pb-2 w-full">Informasi Kontak</h3>
                             ${profile.address ? `
-                            <div class="flex items-start gap-3 mb-4">
+                            <div class="flex items-start gap-3 mb-4 w-full">
                                 <div class="w-8 h-8 rounded-full bg-rose-500/10 text-rose-500 flex items-center justify-center shrink-0 mt-0.5"><i class="fa-solid fa-location-dot"></i></div>
-                                <div>
+                                <div class="text-left">
                                     <p class="text-[10px] sm:text-xs text-slate-400 font-semibold uppercase tracking-wider mb-0.5">Alamat Tempat Usaha</p>
                                     <p class="text-[11px] sm:text-sm text-slate-200 leading-relaxed">${profile.address}</p>
                                 </div>
                             </div>` : ''}
-                            <div class="flex items-start gap-3 mb-5">
+                            <div class="flex items-start gap-3 mb-2 w-full">
                                 <div class="w-8 h-8 rounded-full bg-emerald-500/10 text-emerald-400 flex items-center justify-center shrink-0 mt-0.5"><i class="fa-brands fa-whatsapp"></i></div>
-                                <div>
+                                <div class="text-left">
                                     <p class="text-[10px] sm:text-xs text-slate-400 font-semibold uppercase tracking-wider mb-0.5">WhatsApp / Telepon</p>
                                     <p class="text-[11px] sm:text-sm text-slate-200 font-medium">${profile.whatsapp ? '+' + profile.whatsapp : '-'}</p>
                                 </div>
                             </div>
-                            <button type="button" onclick="openContactWA()" class="w-full py-3 px-4 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl font-bold text-xs sm:text-sm shadow-lg shadow-emerald-500/30 transition-all flex items-center justify-center gap-2 transform hover:-translate-y-1">
-                                <i class="fa-brands fa-whatsapp text-lg"></i> Hubungi Kami Sekarang
-                            </button>
                         </div>
                     </div>`;
                 }
@@ -1688,7 +1858,7 @@ if(topCartBtn) topCartBtn.style.display = profile.isLandingPage ? 'none' : 'bloc
                 const creatorText = profile.creatorName || profile.name;
                 const creatorLinkHtml = profile.creatorUrl ? `<a href="${profile.creatorUrl}" target="_blank" rel="noopener" class="text-brand-400 font-semibold hover:underline">${creatorText}</a>` : `<span class="text-brand-400 font-semibold">${creatorText}</span>`;
                 const avatarHtml = profile.logo 
-                    ? `<img src="${profile.logo}" class="w-24 h-24 sm:w-28 sm:h-28 object-contain rounded-full shadow-xl border-4 border-slate-800 relative z-10 bg-slate-900">`
+                    ? `<img src="${profile.logo}" class="h-24 sm:h-28 w-auto max-w-[200px] sm:max-w-[280px] object-contain relative z-10">`
                     : `<div class="w-24 h-24 sm:w-28 sm:h-28 bg-gradient-to-tr from-brand-600 to-indigo-500 rounded-full flex items-center justify-center text-white text-3xl sm:text-4xl font-bold shadow-xl border-4 border-slate-800 relative z-10 uppercase">${profile.initial}</div>`;
                 
                 container.innerHTML = `
@@ -1697,7 +1867,7 @@ if(topCartBtn) topCartBtn.style.display = profile.isLandingPage ? 'none' : 'bloc
                             
                             <!-- KIRI: Info Akun & Tombol Hubungi Kami -->
                             <div class="w-full md:w-2/5 bg-slate-800/50 relative border-b md:border-b-0 md:border-r border-slate-700/50 flex flex-col overflow-hidden">
-                                <!-- Header Cover Card dengan Animasi Glow -->
+                                <!-- Header Cover Card dengan Animasi Glow Dinamis -->
                                 <div class="h-28 sm:h-36 bg-gradient-to-r from-brand-600 via-indigo-600 to-brand-700 relative overflow-hidden shrink-0">
                                     <div class="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4IiBoZWlnaHQ9IjgiPjxyZWN0IHdpZHRoPSI4IiBoZWlnaHQ9IjgiIGZpbGw9IiNmZmYiIGZpbGwtb3BhY2l0eT0iMC4wNSIvPjwvc3ZnPg==')] opacity-50"></div>
                                     <div class="absolute -bottom-10 -right-10 w-32 h-32 bg-white/20 rounded-full blur-2xl animate-pulse"></div>
@@ -1707,19 +1877,14 @@ if(topCartBtn) topCartBtn.style.display = profile.isLandingPage ? 'none' : 'bloc
                                 <div class="px-6 pb-8 flex-grow flex flex-col items-center justify-between relative z-10">
                                     <!-- Area Profil (Avatar & Teks) -->
                                     <div class="flex flex-col items-center text-center w-full">
-                                        <!-- Avatar dengan Efek Ring Glow Indicator -->
+                                        <!-- Avatar Tanpa Efek Tambahan -->
                                         <div class="-mt-14 sm:-mt-16 flex justify-center mb-4 relative group">
-                                            <div class="absolute inset-0 bg-gradient-to-tr from-brand-500 to-sky-500 rounded-full blur-md opacity-60 group-hover:opacity-100 transition duration-500"></div>
                                             ${avatarHtml}
-                                            <div class="absolute bottom-1 right-2 w-5 h-5 bg-emerald-500 border-2 border-slate-800 rounded-full z-20 flex items-center justify-center" title="${profile.status}">
-                                                <span class="w-2 h-2 bg-white rounded-full animate-ping absolute"></span>
-                                                <span class="w-2 h-2 bg-white rounded-full"></span>
-                                            </div>
                                         </div>
 
                                         <!-- Text Info -->
-                            			<h2 class="text-lg sm:text-xl font-bold text-white mt-3 flex items-center justify-center gap-1.5">${profile.name} <i class="fa-solid fa-circle-check text-brand-500 text-sm"></i></h2>
-                            			<p class="text-[11px] sm:text-xs text-brand-400 font-semibold tracking-wide uppercase mt-1 mb-2">${profile.tagline || 'Pelanggan Toko'}</p>
+                                        ${profile.hideStoreName ? '' : `<h2 class="text-lg sm:text-xl font-bold text-white mt-3 flex items-center justify-center gap-1.5">${profile.name} <i class="fa-solid fa-circle-check text-brand-500 text-sm"></i></h2>`}
+                            			${profile.hideStoreName ? '' : `<p class="text-[11px] sm:text-xs text-brand-400 font-semibold tracking-wide uppercase mt-1 mb-2">${profile.tagline || 'Pelanggan Toko'}</p>`}
                                         <p class="text-[11px] sm:text-sm text-slate-400 max-w-[280px] line-clamp-3 leading-relaxed">${profile.description || 'Selamat datang di halaman profil. Hubungi kami jika ada pertanyaan.'}</p>
                                         ${profile.address ? `<div class="mt-3 flex items-start gap-1.5 text-[11px] sm:text-sm text-slate-300 max-w-[280px] mx-auto text-center justify-center bg-slate-900/40 px-3 py-2 rounded-lg border border-slate-700/50 shadow-inner"><i class="fa-solid fa-location-dot text-rose-500 mt-1 shrink-0"></i> <span>${profile.address}</span></div>` : ''}
                                     </div>
@@ -3134,8 +3299,12 @@ if(topCartBtn) topCartBtn.style.display = profile.isLandingPage ? 'none' : 'bloc
                         <div class="flex flex-col overflow-hidden"><span class="text-[10px] text-emerald-400 font-semibold truncate">${t.name}</span><span class="text-[11px] text-slate-300 font-medium truncate">${t.message}</span></div>
                     </div>
                     <div class="flex items-center gap-1.5 shrink-0">
-                        <button type="button" onclick="editTestimonial('${t.id}')" class="p-1.5 sm:p-2 bg-blue-600/20 text-blue-400 hover:bg-blue-600 hover:text-white rounded-lg transition"><i class="fa-solid fa-pen-to-square text-[10px]"></i></button>
-                        <button type="button" onclick="deleteTestimonial('${t.id}')" class="p-1.5 sm:p-2 bg-rose-600/20 text-rose-400 hover:bg-rose-600 hover:text-white rounded-lg transition"><i class="fa-solid fa-trash text-[10px]"></i></button>
+                        <div class="flex flex-col gap-1 mr-1">
+                            <button type="button" onclick="moveTestimonial('${t.id}', -1)" class="p-1 bg-slate-700/50 hover:bg-slate-600 text-slate-300 rounded transition"><i class="fa-solid fa-arrow-up text-[8px]"></i></button>
+                            <button type="button" onclick="moveTestimonial('${t.id}', 1)" class="p-1 bg-slate-700/50 hover:bg-slate-600 text-slate-300 rounded transition"><i class="fa-solid fa-arrow-down text-[8px]"></i></button>
+                        </div>
+                        <button type="button" onclick="editTestimonial('${t.id}')" class="p-1.5 sm:p-2 bg-blue-600/20 text-blue-400 hover:bg-blue-600 hover:text-white rounded-lg transition"><i class="fa-solid fa-pen-to-square text-[10px] sm:text-xs"></i></button>
+                        <button type="button" onclick="deleteTestimonial('${t.id}')" class="p-1.5 sm:p-2 bg-rose-600/20 text-rose-400 hover:bg-rose-600 hover:text-white rounded-lg transition"><i class="fa-solid fa-trash text-[10px] sm:text-xs"></i></button>
                     </div>
                 </div>`).join('');
         }
@@ -3443,42 +3612,6 @@ if(topCartBtn) topCartBtn.style.display = profile.isLandingPage ? 'none' : 'bloc
         }
         // --- SISTEM SOSIAL MEDIA END ---
 
-        // --- SISTEM TEMA (DARK/LIGHT MODE) ---
-     function initTheme() {
-         const savedTheme = savedThemeStr || profile.defaultTheme || 'dark';
-         if (savedTheme === 'light') document.body.classList.add('theme-light');
-         else document.body.classList.remove('theme-light');
-         updateThemeIcon(savedTheme);
-     }
-
-     function toggleTheme() {
-         const current = savedThemeStr || profile.defaultTheme || 'dark';
-         let nextTheme = current === 'dark' ? 'light' : (current === 'light' ? 'auto' : 'dark');
-
-         savedThemeStr = nextTheme;
-         setDB('luxstore_theme', nextTheme);
-         if (isAdminLoggedIn) {
-             profile.defaultTheme = nextTheme;
-             saveData(); 
-         }
-         initTheme();
-         const msg = nextTheme === 'auto' ? 'Tema mengikuti sistem perangkat' : (nextTheme === 'light' ? 'Mode Terang aktif' : 'Mode Gelap aktif');
-         showToast(msg, 'success');
-     }
-
-        function updateThemeIcon(theme) {
-            const btn = document.getElementById('themeToggleBtn');
-            if (btn) {
-                if (theme === 'light') {
-                    btn.innerHTML = '<i class="fa-solid fa-moon text-xs sm:text-sm text-slate-400"></i><span class="text-[6px] sm:text-[8px] font-semibold text-slate-400 leading-none mt-[1px]">Gelap</span>';
-                } else if (theme === 'auto') {
-                    btn.innerHTML = '<i class="fa-solid fa-circle-half-stroke text-xs sm:text-sm text-slate-300"></i><span class="text-[6px] sm:text-[8px] font-semibold leading-none mt-[1px]">Auto</span>';
-                } else {
-                    btn.innerHTML = '<i class="fa-solid fa-sun text-xs sm:text-sm text-amber-400"></i><span class="text-[6px] sm:text-[8px] font-semibold text-amber-400 leading-none mt-[1px]">Terang</span>';
-                }
-            }
-        }
-
         // --- MASTER INITIALIZATION (IndexedDB + Migrasi LocalStorage) ---
         async function initApp() {
             async function loadVar(key, parser = JSON.parse) {
@@ -3501,6 +3634,7 @@ if(topCartBtn) topCartBtn.style.display = profile.isLandingPage ? 'none' : 'bloc
             let dbImg = await loadVar(prefix + 'imgbb_key', String); imgbbApiKey = dbImg || "";
             let dbComp = await loadVar(prefix + 'compress_img', String); enableImageCompression = dbComp === 'true';
             let dbTheme = await loadVar(prefix + 'theme', String); savedThemeStr = dbTheme || "dark";
+            let dbAds = await loadVar(prefix + 'ads'); adsData = dbAds || []; // FIX: Paksa kosongkan jika toko belum punya iklan
 
             // Eksekusi UI Setelah Data Siap
             initTheme();
@@ -3511,7 +3645,7 @@ if(topCartBtn) topCartBtn.style.display = profile.isLandingPage ? 'none' : 'bloc
             renderBottomNav();
             renderMainContent();
             
-            if (currentTab === 'home') setTimeout(() => { initBannerSlider(); initTestiSlider(); }, 100);
+            if (currentTab === 'home') setTimeout(() => { initBannerSlider(); initTestiSlider(); initAdSliders(); }, 100);
 
             // --- SISTEM BACA URL PARAMETER ---
             setTimeout(() => {
@@ -3604,6 +3738,37 @@ if(topCartBtn) topCartBtn.style.display = profile.isLandingPage ? 'none' : 'bloc
             box.classList.add('scale-95');
             setTimeout(() => modal.classList.add('hidden'), 300);
         }
+
+        // --- SMART NAVBAR (SEMBUNYI SAAT SCROLL BAWAH, MUNCUL SAAT SCROLL ATAS) ---
+        let lastScrollY = window.scrollY;
+        let isNavHidden = false;
+        
+        window.addEventListener('scroll', () => {
+            const bottomNavEl = document.getElementById('bottomNav');
+            // Jangan jalankan efek ini jika sedang di mode Landing Page
+            if(!bottomNavEl || profile.isLandingPage) return; 
+
+            const currentScrollY = window.scrollY;
+            
+            // Mencegah error pada efek pantulan (bounce/elastic scroll) HP iOS/Android
+            if (currentScrollY <= 0) {
+                bottomNavEl.classList.remove('translate-y-full', 'opacity-0');
+                isNavHidden = false;
+                return;
+            }
+            
+            if (currentScrollY > lastScrollY && currentScrollY > 100 && !isNavHidden) {
+                // Scroll ke bawah -> Sembunyikan perlahan ke bawah
+                bottomNavEl.classList.add('translate-y-full', 'opacity-0');
+                isNavHidden = true;
+            } else if (currentScrollY < lastScrollY && isNavHidden) {
+                // Scroll ke atas -> Munculkan kembali
+                bottomNavEl.classList.remove('translate-y-full', 'opacity-0');
+                isNavHidden = false;
+            }
+            
+            lastScrollY = currentScrollY;
+        }, { passive: true });
 
     </script>
 </body>
